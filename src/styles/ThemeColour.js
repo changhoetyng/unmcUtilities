@@ -1,3 +1,3 @@
 export const theme = {
-    primary: '#0066cc'
+    primary: '#70A9FF'
 }
