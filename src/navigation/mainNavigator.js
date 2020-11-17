@@ -15,16 +15,17 @@ import Header from '../components/header';
 import {theme} from '../styles/ThemeColour';
 
 //MY BOOKING STACK
-import BookingStatus from '../screens/MyBooking/BookingStatus'
+import BookingStatus from '../screens/MyBooking/BookingStatus';
 import HeaderMyBooking from '../components/headerMyBooking';
 import MyBookingUpcoming from '../screens/MyBooking/MyBookingUpcoming';
 import MyBookingPast from '../screens/MyBooking/MyBookingPast';
 
 //BOOKING
-import HeaderBookingPage from '../components/headerBookingPage'
-import ConfirmationPage from '../screens/Booking/ConfirmationPage'
-import VenueSelection from '../screens/Booking/VenueSelection'
-import TimeSelection from '../screens/Booking/TimeSelection'
+import HeaderBookingPage from '../components/headerBookingPage';
+import ConfirmationPage from '../screens/Booking/ConfirmationPage';
+import VenueSelection from '../screens/Booking/VenueSelection';
+import TimeSelection from '../screens/Booking/TimeSelection';
+import Settings from '../screens/Settings';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -48,9 +49,14 @@ function MainNavigator() {
           component={MyBookingStack}
           options={{headerShown: false}}
         />
-        <Stack.Screen 
+        <Stack.Screen
           name="BookingStack"
           component={BookingStack}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
@@ -63,44 +69,34 @@ function BookingStack() {
     <Stack.Navigator
       initialRouteName="VenueSelection"
       screenOptions={{
-      headerShown: false
-    }}
-    >
-      <Stack.Screen 
-        name="ConfirmationPage"
-        component={ConfirmationPage}
-      />
-      <Stack.Screen 
-        name="VenueSelection"
-        component={VenueSelection}
-      />
-      <Stack.Screen 
-        name="TimeSelection"
-        component={TimeSelection}
-      />
+        headerShown: false,
+      }}>
+      <Stack.Screen name="ConfirmationPage" component={ConfirmationPage} />
+      <Stack.Screen name="VenueSelection" component={VenueSelection} />
+      <Stack.Screen name="TimeSelection" component={TimeSelection} />
     </Stack.Navigator>
-  )
+  );
 }
 
 function MyBookingStack() {
   return (
     <Stack.Navigator initialRouteName="MyBookingStack">
       <Stack.Screen
-          name="MyBookingStack"
-          component={MyBookingTab}
-          options={{header: () => <HeaderMyBooking title="My Booking"/>}}
+        name="MyBookingStack"
+        component={MyBookingTab}
+        options={{header: () => <HeaderMyBooking title="My Booking" />}}
       />
-      <Stack.Screen 
+      <Stack.Screen
         name="BookingStatus"
         component={BookingStatus}
-        options={{header: () => <HeaderMyBooking title="Booking Status"/>}}
+        options={{header: () => <HeaderMyBooking title="Booking Status" />}}
       />
     </Stack.Navigator>
-  )
+  );
 }
 
 function MyBookingTab() {
-  return(
+  return (
     <Tab.Navigator
       screenOptions={{
         headerShown: true,
@@ -128,7 +124,7 @@ function MyBookingTab() {
         component={MyBookingPast}
       />
     </Tab.Navigator>
-  )
+  );
 }
 
 export default MainNavigator;

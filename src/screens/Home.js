@@ -136,7 +136,7 @@ class Home extends Component {
             <Text style={[{fontSize: screenHeight * 0.04}, styles.homeTitle]}>
               Home
             </Text>
-            <TouchableOpacity onPress={() => console.log('worm')}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Settings')}>
               <Image
                 source={{uri: this.state.uri}}
                 style={{
