@@ -9,12 +9,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import Header from '../assets/header';
+import Header from '../components/header';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import HomeOptions from '../assets/homeOptions';
+import HomeOptions from '../components/homeOptions';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {Divider} from 'react-native-elements';
 import {theme} from '../styles/ThemeColour';
+import { NavigationContainer } from '@react-navigation/native';
 
 class Home extends Component {
   constructor(props) {
@@ -75,10 +76,11 @@ class Home extends Component {
       ],
     };
   }
-
+  
   announcementRenderer(item) {
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
+    
     return (
       <View
         style={styles.announcementRenderer}>
@@ -126,10 +128,8 @@ class Home extends Component {
   render() {
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
-    console.log('width' + screenWidth);
-    console.log('height' + screenHeight);
     return (
-      <SafeAreaView style={{flex: 1, backgroundColor: '#DEE4E8'}}>
+      <SafeAreaView style={{flex: 1, backgroundColor: theme.backgroundPrimary}}>
         <View style={styles.blueHeader}>
           <View
             style={[{marginTop: screenHeight * 0.028},styles.homeWord]}>
@@ -171,7 +171,7 @@ class Home extends Component {
               <View>
                 <TouchableOpacity
                   style={{alignItems: 'center'}}
-                  onPress={() => console.log('worm')}>
+                  onPress={() => this.props.navigation.navigate('BookingStack')}>
                   <Icon
                     name="meeting-room"
                     size={screenWidth * 0.1}
@@ -185,7 +185,7 @@ class Home extends Component {
               <View>
                 <TouchableOpacity
                   style={{alignItems: 'center'}}
-                  onPress={() => console.log('worm')}>
+                  onPress={() => this.props.navigation.navigate('MyBookingStack')}>
                   <Icon
                     name="book-online"
                     size={screenWidth * 0.1}
