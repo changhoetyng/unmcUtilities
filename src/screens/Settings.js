@@ -82,13 +82,6 @@ const styles= StyleSheet.create({
         backgroundColor: theme.primary
     },
 
-    textStyle: {
-        fontSize: 30,
-        marginTop: 30,
-        marginLeft: 10,
-        textAlign: 'center'
-    },
-
     notifications: {
         width: 250,
         padding: 10,

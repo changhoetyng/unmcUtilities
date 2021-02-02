@@ -25,12 +25,14 @@ function Login({navigation}) {
         Keyboard.dismiss();
       }}>
       <KeyboardAvoidingView
-        style={{flex: 1, backgroundColor: '#ddd'}}
+        style={{flex: 1, alignItems: 'center', backgroundColor: '#ddd'}}
         behavior="position">
-        <Image
-          source={require('../assets/UNMC-removebg-preview.png')}
-          style={styles.imageSize}
-        />
+        <View style={{alignItems: 'center'}}>
+          <Image
+            source={require('../assets/UNMC-removebg-preview.png')}
+            style={styles.imageSize}
+          />
+        </View>
 
         <View style={styles.container}>
           <TextInput style={styles.input} placeholder="Email" />
@@ -62,30 +64,29 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: 'black',
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
 
   container: {
     width: 300,
     padding: 10,
     marginTop: 225,
-    marginLeft: 55,
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: 20,
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
 
   textStyle: {
+    color: theme.primary,
     fontSize: 12,
-    marginTop: 10,
+    marginTop: 10
   },
 
   imageSize: {
     width: 200,
     height: 200,
-    marginLeft: 100,
-    resizeMode: 'contain',
+    resizeMode: 'contain'
   },
 
   loginButton: {
@@ -95,6 +96,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
     borderRadius: 5,
-    backgroundColor: theme.primary,
+    backgroundColor: theme.primary
   },
 });
