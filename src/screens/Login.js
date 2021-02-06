@@ -11,8 +11,8 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from 'react-native';
-
 import {theme} from '../styles/ThemeColour';
+import FullPageLoader from "../hooks/FullPageLoader"
 
 function Login({navigation}) {
   const pressHandler = () => {
@@ -27,13 +27,13 @@ function Login({navigation}) {
       <KeyboardAvoidingView
         style={{flex: 1, alignItems: 'center', backgroundColor: '#ddd'}}
         behavior="position">
+          {/* <FullPageLoader /> */}
         <View style={{alignItems: 'center'}}>
-          <Image
+          {/* <Image
             source={require('../assets/UNMC-removebg-preview.png')}
             style={styles.imageSize}
-          />
+          /> */}
         </View>
-
         <View style={styles.container}>
           <TextInput style={styles.input} placeholder="Email" />
 
