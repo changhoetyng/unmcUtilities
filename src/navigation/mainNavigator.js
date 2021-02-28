@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-
+import {useSelector, useDispatch} from 'react-redux';
+import {logout, addToken, addRefreshToken} from "../store/actions/user"
+import {api} from "../api/api"
 /*
  **  SCREENS
  */
@@ -13,6 +15,8 @@ import Login from '../screens/Login';
 import Header from '../components/header';
 
 import {theme} from '../styles/ThemeColour';
+
+import HomeLoading from '../screens/HomeLoading'
 
 //MY BOOKING STACK
 import BookingStatus from '../screens/MyBooking/BookingStatus';
@@ -31,36 +35,109 @@ const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 function MainNavigator() {
+  const userReducer = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
+  const [auth, setAuth] = useState(false);
+  const [isTokenValidated, setIsTokenValidated] = useState(false);
+
+  useEffect(() => {
+    setIsTokenValidated(false)
+    let accessToken = userReducer.token
+    let refreshToken = userReducer.refreshToken
+    if (accessToken) {
+      Promise.all([
+        api
+          .get('/student/verifyUser', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              console.log(res.data);
+              setAuth(true);
+            }
+          })
+          .catch((err) => {
+            var status;
+            if (err.response) {
+              status = err.response.status;
+            }
+            if (status === 401) {
+              api
+                .get('/student/token', {
+                  params: {
+                    refreshToken: refreshToken,
+                  },
+                })
+                .then((res) => {
+                  dispatch(addToken(res.data.accessToken))
+                  setAuth(true);
+                })
+                .catch((err) => {
+                  dispatch(logout())
+                  setAuth(false);
+                });
+            } else {
+              setAuth(false);
+            }
+          }),
+      ]).then(() => setIsTokenValidated(true));
+    } else {
+      setIsTokenValidated(true); // in case there is no token
+    }
+  }, []);
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="Login"
-          component={Login}
+      <Stack.Navigator>
+        {!isTokenValidated ?
+          <Stack.Screen
+          name="HomeLoading"
+          component={HomeLoading}
           options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="MyBookingStack"
-          component={MyBookingStack}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="BookingStack"
-          component={BookingStack}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Settings"
-          component={Settings}
-          options={{headerShown: false}}
-        />
+        /> :       
+        !auth ? (
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{headerShown: false}}
+          />
+        ) : (
+          <Stack.Screen
+            name="Authed"
+            component={Authed}
+            options={{headerShown: false}}
+          />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
+  );
+}
+
+function Authed() {
+  return (
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="MyBookingStack"
+        component={MyBookingStack}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="BookingStack"
+        component={BookingStack}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
   );
 }
 

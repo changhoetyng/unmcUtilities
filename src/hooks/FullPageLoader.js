@@ -17,7 +17,8 @@ export default class FullPageLoader extends Component {
         onRequestClose={() => { }}>
         <View style={styles.modalBackground}>
           <View style={styles.activityIndicatorWrapper}>
-            <Image source={require('./loading.gif')} />
+            <Image style={{height: '70%', width: '70%'}} source={require('../assets/loading.gif')} />
+            <Text style={{fontWeight: "bold"}}>Loading</Text>
           </View>
         </View>
       </Modal>
@@ -35,9 +36,10 @@ const styles = StyleSheet.create({
       zIndex: 1000
     },
     activityIndicatorWrapper: {
-      height: 100,
-      width: 100,
+      height: 150,
+      width: 150,
       borderRadius: 10,
+      backgroundColor: "white",
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-around'

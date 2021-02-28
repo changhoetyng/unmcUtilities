@@ -12,6 +12,7 @@ const headerBookingPage = (props) => {
           <Icon 
           name="arrow-back"
           size={screenWidth * 0.08}
+          onPress={props.backButton}
           />
           </TouchableOpacity>
     <Text style={[styles.title,{fontSize: screenWidth*0.06}]}>{props.title}</Text>

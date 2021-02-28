@@ -55,6 +55,7 @@ class SportsCourtChoosing extends Component {
         <HeaderBookingPage
           title="Select a time"
           description="Pick a time and date that's available for the court."
+          backButton= {() => this.props.navigation.goBack()}
         />
         <View style={{padding: 15}}>
           <Text

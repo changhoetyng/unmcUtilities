@@ -46,6 +46,7 @@ class VenueSelection extends Component {
         <HeaderBookingPage
           title="Choose a court"
           description="Pick a court and check for it's availability."
+          backButton= {() => this.props.navigation.goBack()}
         />
         <FlatList
           data={this.state.data}
