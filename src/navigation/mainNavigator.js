@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {useSelector, useDispatch} from 'react-redux';
-import {logout, addToken, addRefreshToken} from "../store/actions/user"
+import {logout, addToken, addRefreshToken,isAuth} from "../store/actions/user"
 import {api} from "../api/api"
 /*
  **  SCREENS
@@ -39,7 +39,7 @@ function MainNavigator() {
   const dispatch = useDispatch();
   const [auth, setAuth] = useState(false);
   const [isTokenValidated, setIsTokenValidated] = useState(false);
-
+  
   useEffect(() => {
     setIsTokenValidated(false)
     let accessToken = userReducer.token
@@ -56,6 +56,7 @@ function MainNavigator() {
             if (res.status === 200) {
               console.log(res.data);
               setAuth(true);
+              dispatch(isAuth(true))
             }
           })
           .catch((err) => {
@@ -73,13 +74,16 @@ function MainNavigator() {
                 .then((res) => {
                   dispatch(addToken(res.data.accessToken))
                   setAuth(true);
+                  dispatch(isAuth(true))
                 })
                 .catch((err) => {
                   dispatch(logout())
                   setAuth(false);
+                  dispatch(isAuth(false))
                 });
             } else {
               setAuth(false);
+              dispatch(isAuth(false))
             }
           }),
       ]).then(() => setIsTokenValidated(true));
@@ -96,7 +100,7 @@ function MainNavigator() {
           component={HomeLoading}
           options={{headerShown: false}}
         /> :       
-        !auth ? (
+        !userReducer.auth ? (
           <Stack.Screen
             name="Login"
             component={Login}

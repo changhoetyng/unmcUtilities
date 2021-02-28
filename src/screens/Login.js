@@ -14,7 +14,7 @@ import {
 import axios from 'axios';
 import {theme} from '../styles/ThemeColour';
 import FullPageLoader from '../hooks/FullPageLoader';
-import {addToken, addRefreshToken} from '../store/actions/user';
+import {addToken, addRefreshToken,isAuth} from '../store/actions/user';
 import {useSelector, useDispatch} from 'react-redux';
 import {api} from '../api/api'
 
@@ -37,6 +37,7 @@ function Login({navigation}) {
         dispatch(addToken(res.data.accessToken))
         dispatch(addRefreshToken(res.data.refreshToken))
         setLoading(false)
+        dispatch(isAuth(true))
         console.log("success")
       })
       .catch((err) => {
@@ -53,7 +54,6 @@ function Login({navigation}) {
     await loginCheck();
     console.log(error)
   };
-
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -68,7 +68,6 @@ function Login({navigation}) {
         </View>
         <View style={styles.container}>
           <TextInput style={styles.input} onChangeText={text => onChangeStudentId(text)} placeholder="Student ID"/>
-
           <TextInput style={styles.input} onChangeText={text => onChangePassword(text)} placeholder="Password"/>
 
           <TouchableOpacity onPress={pressHandler}>

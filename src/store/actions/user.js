@@ -1,4 +1,4 @@
-import {ADD_TOKEN, ADD_REFRESH_TOKEN, LOG_OUT} from '../types/userTypes';
+import {ADD_TOKEN, ADD_REFRESH_TOKEN, LOG_OUT,IS_AUTH} from '../types/userTypes';
 
 export const addToken = (token) => ({
   type: ADD_TOKEN,
@@ -12,4 +12,9 @@ export const addRefreshToken = (refreshToken) => ({
 
 export const logout = () => ({
   type: LOG_OUT,
+})
+
+export const isAuth = (auth) => ({
+  type: IS_AUTH,
+  data: auth,
 })
