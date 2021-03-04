@@ -61,25 +61,28 @@ function Login({navigation}) {
         Keyboard.dismiss();
       }}>
       <KeyboardAvoidingView
-        style={{flex: 1, alignItems: 'center', backgroundColor: '#ddd'}}
-        behavior="position">
+        style={{ flex: 1, alignItems: 'center', backgroundColor: '#ddd' }} behavior="height"
+      >
         {loading && <FullPageLoader />}
         <View style={{alignItems: 'center'}}>
+            <Image source={ require('../assets/UNMC-removebg-preview.png') } style={ styles.imageSize } />
         </View>
-        <View style={styles.container}>
-          <TextInput style={styles.input} onChangeText={text => onChangeStudentId(text)} placeholder="Student ID"/>
-          <TextInput style={styles.input} onChangeText={text => onChangePassword(text)} placeholder="Password"/>
+        <View style={{ flex: 1, marginBottom: 30, justifyContent: 'flex-end' }}>
+          <View style={styles.container}>
+            <TextInput style={styles.input} onChangeText={text => onChangeStudentId(text)} placeholder="Student ID"/>
+            <TextInput style={styles.input} onChangeText={text => onChangePassword(text)} placeholder="Password"/>
 
-          <TouchableOpacity onPress={pressHandler}>
-            <View style={styles.loginButton}>
-              <Icon name="login" size={18} color="white" />
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={pressHandler}>
+              <View style={styles.loginButton}>
+                <Icon name="login" size={18} color="white" />
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => console.log(userReducer.token + userReducer.refreshToken)}>
-            <Text style={styles.textStyle}> Forget password? </Text>
-            <Text style={{color: "red"}}>{error}</Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log(userReducer.token + userReducer.refreshToken)}>
+              <Text style={styles.signUp}> Sign Up </Text>
+              <Text style={{color: "red"}}>{error}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
@@ -102,22 +105,21 @@ const styles = StyleSheet.create({
   container: {
     width: 300,
     padding: 10,
-    marginTop: 225,
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: 20,
     backgroundColor: 'white',
   },
 
-  textStyle: {
+  signUp: {
     color: theme.primary,
-    fontSize: 12,
+    fontSize: 13,
     marginTop: 10,
   },
 
   imageSize: {
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 250,
     resizeMode: 'contain',
   },
 
