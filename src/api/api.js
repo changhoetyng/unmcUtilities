@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {store} from '../store/store'
-import {addToken} from "../store/actions/user"
+import {logout,addToken} from "../store/actions/user"
 
 export const apiUrl = 'http://192.168.101.20:5000/api'
 
