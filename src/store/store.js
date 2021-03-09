@@ -3,6 +3,7 @@ import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import {LOG_OUT} from './types/userTypes'
 import userReducer from './reducers/userReducer'
+import bookingReducer from './reducers/bookingReducer'
 
 const persistConfig = {
   key: 'root',
@@ -22,6 +23,7 @@ const rootReducer = (state, action) => {
 
 const appReducer = combineReducers({
   userReducer: userReducer,
+  bookingReducer: bookingReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

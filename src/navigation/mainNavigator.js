@@ -28,7 +28,8 @@ import MyBookingPast from '../screens/MyBooking/MyBookingPast';
 import HeaderBookingPage from '../components/headerBookingPage';
 import ConfirmationPage from '../screens/Booking/ConfirmationPage';
 import VenueSelection from '../screens/Booking/VenueSelection';
-import TimeSelection from '../screens/Booking/TimeSelection';
+import TimeSelectionRoom from '../screens/Booking/TimeSelectionRoom';
+import TimeSelectionSportComplex from '../screens/Booking/TimeSelectionSportComplex'
 import Settings from '../screens/Settings';
 
 const Stack = createStackNavigator();
@@ -154,7 +155,8 @@ function BookingStack() {
       }}>
       <Stack.Screen name="ConfirmationPage" component={ConfirmationPage} />
       <Stack.Screen name="VenueSelection" component={VenueSelection} />
-      <Stack.Screen name="TimeSelection" component={TimeSelection} />
+      <Stack.Screen name="TimeSelectionRoom" component={TimeSelectionRoom} />
+      <Stack.Screen name="TimeSelectionSportComplex" component={TimeSelectionSportComplex} />
     </Stack.Navigator>
   );
 }

@@ -16,67 +16,36 @@ import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {Divider} from 'react-native-elements';
 import {theme} from '../styles/ThemeColour';
 import { NavigationContainer } from '@react-navigation/native';
+import FullPageLoader from '../hooks/FullPageLoader'; 
+import {api} from '../api/api'
+import moment from 'moment'
+import {connect} from 'react-redux'
+import {currentSelectedMode} from "../store/actions/booking"
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       uri:
         'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
-      data: [
-        {
-          id: 1,
-          picture:
-            'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
-          name: 'Sport Complex',
-          time: '12 Nov 2020, 6:13 P.M.',
-          description: 'Testing\n\nTesting Testing',
-        },
-        {
-          id: 2,
-          picture:
-            'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
-          name: 'Sport Complex',
-          time: '12 Nov 2020, 6:13 P.M.',
-          description:
-            'Lorem ipsudddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddm dolor sit amet,\n\n\n\n\nTesting Testing',
-        },
-        {
-          id: 3,
-          picture:
-            'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
-          name: 'Sport Complex',
-          time: '12 Nov 2020, 6:13 P.M.',
-          description: 'Lorem ipsum dolor sit amet,\n\n\n\n\nTesting Testing',
-        },
-        {
-          id: 4,
-          picture:
-            'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
-          name: 'Sport Complex',
-          time: '12 Nov 2020, 6:13 P.M.',
-          description: 'Lorem ipsum dolor sit amet,\n\n\n\n\nTesting Testing',
-        },
-        {
-          id: 5,
-          picture:
-            'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
-          name: 'Sport Complex',
-          time: '12 Nov 2020, 6:13 P.M.',
-          description: 'Lorem ipsum dolor sit amet,\n\n\n\n\nTesting Testing',
-        },
-        {
-          id: 6,
-          picture:
-            'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
-          name: 'Sport Complex',
-          time: '12 Nov 2020, 6:13 P.M.',
-          description: 'Lorem ipsum dolor sit amet,\n\n\n\n\nTesting Testing',
-        },
-      ],
+      data: []
     };
   }
   
+  async componentDidMount() {
+    this.setState({loading: true})
+    await api
+    .get('/student/getAnnouncement')
+    .then((res) => {
+      this.setState({data: res.data})
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    this.setState({loading: false})
+  }
+
   announcementRenderer(item) {
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
@@ -87,14 +56,6 @@ class Home extends Component {
         <View>
           <View
             style={{flexDirection: 'row', marginBottom: screenHeight * 0.006}}>
-            <Image
-              source={{uri: item.picture}}
-              style={{
-                width: screenHeight * 0.05,
-                height: screenHeight * 0.05,
-                borderRadius: (screenHeight * 0.05) / 2,
-              }}
-            />
             <View>
               <Text
                 style={{
@@ -102,7 +63,7 @@ class Home extends Component {
                   marginLeft: screenHeight * 0.006,
                   fontWeight: 'bold',
                 }}>
-                {item.name}
+                {item.title}
               </Text>
               <Text
                 style={{
@@ -110,14 +71,14 @@ class Home extends Component {
                   marginLeft: screenHeight * 0.006,
                   color: '#888888',
                 }}>
-                {item.time}
+                {moment(item.date).format("D/MM/YYYY h:m a")}
               </Text>
             </View>
           </View>
           <Divider style={{height: 2, backgroundColor: '#DEE4E8'}} />
           <View style={{width: '90%', alignSelf: 'center'}}>
             <Text style={{fontSize: screenWidth * 0.03}}>
-              {item.description}
+              {item.announcement}
             </Text>
           </View>
         </View>
@@ -125,11 +86,17 @@ class Home extends Component {
     );
   }
 
+  async toBooking(mode) {
+    await this.props.currentSelectedMode(mode)
+    this.props.navigation.navigate('BookingStack')
+  }
+
   render() {
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: theme.backgroundPrimary}}>
+        {this.state.loading && <FullPageLoader />}
         <View style={styles.blueHeader}>
           <View
             style={[{marginTop: screenHeight * 0.028},styles.homeWord]}>
@@ -157,7 +124,7 @@ class Home extends Component {
               <View>
                 <TouchableOpacity
                   style={{alignItems: 'center'}}
-                  onPress={() => console.log('worm')}>
+                  onPress={() => this.toBooking('sport')}>
                   <Icon
                     name="directions-bike"
                     size={screenWidth * 0.1}
@@ -171,7 +138,7 @@ class Home extends Component {
               <View>
                 <TouchableOpacity
                   style={{alignItems: 'center'}}
-                  onPress={() => this.props.navigation.navigate('BookingStack')}>
+                  onPress={() => this.toBooking('room')}>
                   <Icon
                     name="meeting-room"
                     size={screenWidth * 0.1}
@@ -223,13 +190,19 @@ class Home extends Component {
         <FlatList
           data={this.state.data}
           renderItem={({item}) => this.announcementRenderer(item)}
-          keyExtractor={(data) => data.id.toString()}
+          keyExtractor={(data) => data._id}
           style={{flex: 1, alignSelf: 'center', width: '90%'}}
         />
       </SafeAreaView>
     );
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    currentSelectedMode: mode => dispatch(currentSelectedMode(mode)),
+  };
+};
 
 const styles = StyleSheet.create({
   homeTitle: {
@@ -273,4 +246,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Home;
+export default connect(null,mapDispatchToProps) (Home);
