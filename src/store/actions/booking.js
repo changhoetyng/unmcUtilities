@@ -1,4 +1,4 @@
-import {CURRENT_SELECTED_MODE,CURRENT_SELECTED_FACILITYID,CURRENT_SELECTED_ROOMID} from '../types/bookingTypes';
+import {CURRENT_SELECTED_MODE,CURRENT_SELECTED_FACILITYID,CURRENT_SELECTED_ROOMID,BOOKING_SELECTED} from '../types/bookingTypes';
 
 export const currentSelectedMode = (mode) => ({
   type: CURRENT_SELECTED_MODE,
@@ -13,4 +13,9 @@ export const setCurrentFacilityId = (id) => ({
 export const setCurrentRoomId = (id) => ({
   type: CURRENT_SELECTED_ROOMID,
   data: id,
+});
+
+export const setBooking = (bookInfo) => ({
+  type: BOOKING_SELECTED,
+  data: bookInfo,
 });

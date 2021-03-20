@@ -17,6 +17,7 @@ import Modal from 'react-native-modal';
 import {api} from '../../api/api';
 import {CheckBox} from 'react-native-elements';
 import {connect} from 'react-redux';
+import {setBooking} from '../../store/actions/booking';
 
 class TimeSelectionRoom extends Component {
   constructor(props) {
@@ -40,6 +41,49 @@ class TimeSelectionRoom extends Component {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  async onPressTime(selectedDate, time,subName) {
+    let studentId = ''
+    try {
+      await api
+      .get(`student/getuser`)
+      .then((res) => {
+        studentId = res.data.user.studentId
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    const setBooking = {
+      roomId: this.state.data.roomId,
+      date: this.state.selectedDate,
+      time: time,
+      studentId: studentId,
+      subCategoryId: selectedDate.subCategoryId,
+      venueName: this.state.data.room,
+      subCategoryName: subName
+    }
+
+    await this.props.setBooking(setBooking)
+    this.props.navigation.navigate('ConfirmationPage')
+    } catch(e) {
+      console.log(e)
+    }
+    
+
+    // await api
+    //   .patch(`/sportcomplex/booked/${selectedFacilityId}`,{
+    //     facilityId: this.state.data.facilityId,
+    //     date: this.state.selectedDate,
+    //     time: time
+    //   })
+    //   .then((res) => {
+    //     this.setState({data: res.data.data});
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }
 
   onChangeDate(event, selectedDate) {
@@ -94,24 +138,26 @@ class TimeSelectionRoom extends Component {
                       padding: 10
                     }}>
                     {date.timeListing.map((time, index) => {
-                      if(time.timeStatus.status === "open"){
-                      return (
-                        <View
-                        key={index}
-                          style={{
-                            width: '40%',
-                            padding: 5,
-                            borderColor: theme.greyOne,
-                            borderWidth: 2.5,
-                            marginBottom: 8,
-                          }}>
-                          <Text
-                            style={{fontWeight: 'bold', fontSize: 20}}
-                            key={index}>
-                            {time.time}
-                          </Text>
-                        </View>
-                      );
+                      if (time.timeStatus.status === 'open') {
+                        return (
+                          <View
+                            key={index}
+                            style={{
+                              width: '40%',
+                              padding: 5,
+                              borderColor: theme.greyOne,
+                              borderWidth: 2.5,
+                              marginBottom: 8,
+                            }}>
+                            <TouchableOpacity onPress={() => this.onPressTime(date,time.time,subCatName.subName)}>
+                              <Text
+                                style={{fontWeight: 'bold', fontSize: 20}}
+                                key={index}>
+                                {time.time}
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
+                        );
                       }
                     })}
                   </View>
@@ -234,4 +280,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(TimeSelectionRoom);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setBooking: (bookInfo) => dispatch(setBooking(bookInfo)),
+  };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(TimeSelectionRoom);

@@ -13,10 +13,10 @@ import {theme} from '../../styles/ThemeColour';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import Modal from 'react-native-modal';
 import {api} from '../../api/api';
 import {CheckBox} from 'react-native-elements';
 import {connect} from 'react-redux';
+import {setBooking} from '../../store/actions/booking';
 
 class TimeSelectionSportComplex extends Component {
   constructor(props) {
@@ -24,17 +24,14 @@ class TimeSelectionSportComplex extends Component {
     this.state = {
       data: {},
       showCalendar: false,
-      modalVisible: false,
     };
   }
 
   async componentDidMount() {
     const selectedFacilityId = await this.props.selectedFacilityId;
-    console.log(selectedFacilityId);
     await api
       .get(`/student/showSelectedFacility/${selectedFacilityId}`)
       .then((res) => {
-        console.log(res.data.data);
         this.setState({data: res.data.data});
       })
       .catch((err) => {
@@ -55,6 +52,49 @@ class TimeSelectionSportComplex extends Component {
     }
   }
 
+  async onPressTime(selectedDate, time,subName) {
+    let studentId = ''
+    try {
+      await api
+      .get(`student/getuser`)
+      .then((res) => {
+        studentId = res.data.user.studentId
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    const setBooking = {
+      facilityId: this.state.data.facilityId,
+      date: this.state.selectedDate,
+      time: time,
+      studentId: studentId,
+      subCategoryId: selectedDate.subCategoryId,
+      venueName: this.state.data.facility,
+      subCategoryName: subName
+    }
+
+    await this.props.setBooking(setBooking)
+    this.props.navigation.navigate('ConfirmationPage')
+    } catch(e) {
+      console.log(e)
+    }
+    
+
+    // await api
+    //   .patch(`/sportcomplex/booked/${selectedFacilityId}`,{
+    //     facilityId: this.state.data.facilityId,
+    //     date: this.state.selectedDate,
+    //     time: time
+    //   })
+    //   .then((res) => {
+    //     this.setState({data: res.data.data});
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  }
+
   renderAvailability() {
     const screenWidth = Dimensions.get('window').width;
     let selectedDate = null;
@@ -63,6 +103,8 @@ class TimeSelectionSportComplex extends Component {
         (item) => item.date === this.state.selectedDate,
       );
     }
+
+    
 
     if (selectedDate) {
       return (
@@ -91,27 +133,29 @@ class TimeSelectionSportComplex extends Component {
                       flexDirection: 'row',
                       flexWrap: 'wrap',
                       alignItems: 'flex-start',
-                      padding: 10
+                      padding: 10,
                     }}>
                     {date.timeListing.map((time, index) => {
-                      if(time.timeStatus.status === "open"){
-                      return (
-                        <View
-                        key={index}
-                          style={{
-                            width: '40%',
-                            padding: 5,
-                            borderColor: theme.greyOne,
-                            borderWidth: 2.5,
-                            marginBottom: 8,
-                          }}>
-                          <Text
-                            style={{fontWeight: 'bold', fontSize: 20}}
-                            key={index}>
-                            {time.time}
-                          </Text>
-                        </View>
-                      );
+                      if (time.timeStatus.status === 'open') {
+                        return (
+                          <View
+                            key={index}
+                            style={{
+                              width: '40%',
+                              padding: 5,
+                              borderColor: theme.greyOne,
+                              borderWidth: 2.5,
+                              marginBottom: 8,
+                            }}>
+                            <TouchableOpacity onPress={() => this.onPressTime(date,time.time,subCatName.subName)}>
+                              <Text
+                                style={{fontWeight: 'bold', fontSize: 20}}
+                                key={index}>
+                                {time.time}
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
+                        );
                       }
                     })}
                   </View>
@@ -167,62 +211,17 @@ class TimeSelectionSportComplex extends Component {
             Availability
           </Text>
           {this.renderAvailability()}
-          
         </View>
         {this.state.showCalendar && (
           <DateTimePicker
             mode="date"
             value={new Date()}
+            // minimumDate={new Date()}
             onChange={(event, selectedDate) =>
               this.onChangeDate(event, selectedDate)
             }
           />
         )}
-
-        <Modal
-          isVisible={this.state.modalVisible}
-          onBackdropPress={() => this.setState({modalVisible: false})}>
-          <View
-            style={{
-              width: screenWidth * 0.7,
-              height: screenWidth * 0.7,
-              backgroundColor: 'white',
-              alignSelf: 'center',
-              flexWrap: 'wrap',
-              padding: 10,
-              alignContent: 'center',
-            }}>
-            <View style={{width: '100%', height: '100%'}}>
-              <Text style={{fontSize: screenWidth * 0.05, alignSelf: 'center'}}>
-                Select Duration
-              </Text>
-              <CheckBox
-                center
-                containerStyle={{backgroundColor: 'white'}}
-                title="1 Hours"
-                checkedIcon="dot-circle-o"
-                uncheckedIcon="circle-o"
-                checked={true}
-              />
-              <CheckBox
-                center
-                containerStyle={{backgroundColor: 'white'}}
-                title="2 Hours"
-                checkedIcon="dot-circle-o"
-                uncheckedIcon="circle-o"
-                checked={false}
-              />
-              <View style={{bottom: 0, position: 'absolute', width: '100%'}}>
-                <Button
-                  title="Done"
-                  onPress={() =>
-                    this.props.navigation.navigate('ConfirmationPage')
-                  }
-                />
-              </View>
-            </View>
-          </View>
-        </Modal>
       </View>
     );
   }
@@ -234,4 +233,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(TimeSelectionSportComplex);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setBooking: (bookInfo) => dispatch(setBooking(bookInfo)),
+  };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(TimeSelectionSportComplex);
