@@ -14,16 +14,19 @@ import {theme} from '../../styles/ThemeColour';
 import {api} from '../../api/api';
 import {setCurrentFacilityId,setCurrentRoomId} from '../../store/actions/booking';
 import {connect} from 'react-redux';
+import FullPageLoader from '../../hooks/FullPageLoader';
 
 class VenueSelection extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
+      isLoading: false
     };
   }
 
   async componentDidMount() {
+    this.setState({isLoading: true})
     if ((await this.props.currentSelectedMode) === 'sport') {
       await api
         .get('/student/getFacilityName')
@@ -43,6 +46,8 @@ class VenueSelection extends Component {
           console.log(err);
         });
     }
+
+    this.setState({isLoading: false})
   }
 
   venueRenderer(item) {
@@ -77,6 +82,7 @@ class VenueSelection extends Component {
   render() {
     return (
       <View style={{flex: 1, backgroundColor: theme.backgroundPrimary}}>
+        {this.state.isLoading && <FullPageLoader />}
         {this.props.currentSelectedMode === 'sport' ? (
           <HeaderBookingPage
             title="Choose a court"

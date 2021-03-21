@@ -14,7 +14,7 @@ const headerMyBooking = (props) => {
     const screenHeight = Dimensions.get('window').height;
     return (
       <View style={{backgroundColor: theme.backgroundPrimary, padding:10}}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => props.navigation.goBack()}>
           <Icon 
           name="arrow-back"
           size={screenWidth * 0.08}

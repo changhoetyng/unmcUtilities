@@ -1,14 +1,6 @@
-import {CURRENT_SELECTED_MODE,CURRENT_SELECTED_FACILITYID,CURRENT_SELECTED_ROOMID,BOOKING_SELECTED} from '../types/bookingTypes';
+import {CURRENT_SELECTED_MODE,CURRENT_SELECTED_FACILITYID,CURRENT_SELECTED_ROOMID,BOOKING_SELECTED, BOOKING_STATUS} from '../types/bookingTypes';
 
-const bookingSelected = {
-  selectedVenue: '',
-  time: '',
-  date: '',
-  selectedId: '',
-  subCategoryId: ''
-}
-
-const initialState = {currentSelectedMode: '',selectedFacilityId: '',selectedRoomId: '',bookingSelected};
+const initialState = {currentSelectedMode: '',selectedFacilityId: '',selectedRoomId: '',bookingSelected: '', bookingStatus: ''};
 
 const bookingReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -26,6 +18,8 @@ const bookingReducer = (state = initialState, action) => {
         return {...state, selectedRoomId: action.data};
     case BOOKING_SELECTED:
       return {...state, bookingSelected: action.data};
+    case BOOKING_STATUS:
+      return {...state, bookingStatus: action.data};
     default:
       return state;
   }

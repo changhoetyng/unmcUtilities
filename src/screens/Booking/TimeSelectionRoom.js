@@ -18,6 +18,7 @@ import {api} from '../../api/api';
 import {CheckBox} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {setBooking} from '../../store/actions/booking';
+import FullPageLoader from '../../hooks/FullPageLoader';
 
 class TimeSelectionRoom extends Component {
   constructor(props) {
@@ -26,24 +27,26 @@ class TimeSelectionRoom extends Component {
       data: {},
       showCalendar: false,
       modalVisible: false,
+      isLoading: false
     };
   }
 
   async componentDidMount() {
+    this.setState({isLoading: true})
     const selectedRoomId = await this.props.selectedRoomId;
-    console.log(selectedRoomId);
     await api
       .get(`/student/showSelectedRoom/${selectedRoomId}`)
       .then((res) => {
-        console.log(res.data.data);
         this.setState({data: res.data.data});
       })
       .catch((err) => {
         console.log(err);
       });
+      this.setState({isLoading: false})
   }
 
   async onPressTime(selectedDate, time,subName) {
+    this.setState({isLoading: false})
     let studentId = ''
     try {
       await api
@@ -64,7 +67,7 @@ class TimeSelectionRoom extends Component {
       venueName: this.state.data.room,
       subCategoryName: subName
     }
-
+    this.setState({isLoading: false})
     await this.props.setBooking(setBooking)
     this.props.navigation.navigate('ConfirmationPage')
     } catch(e) {
@@ -175,6 +178,7 @@ class TimeSelectionRoom extends Component {
     const screenHeight = Dimensions.get('window').height;
     return (
       <View style={{flex: 1, backgroundColor: theme.backgroundPrimary}}>
+        {this.state.isLoading && <FullPageLoader />}
         <HeaderBookingPage
           title="Select a time"
           description="Pick a time and date that's available for the room."

@@ -17,6 +17,8 @@ import {api} from '../../api/api';
 import {CheckBox} from 'react-native-elements';
 import {connect} from 'react-redux';
 import {setBooking} from '../../store/actions/booking';
+import FullPageLoader from '../../hooks/FullPageLoader';
+
 
 class TimeSelectionSportComplex extends Component {
   constructor(props) {
@@ -24,10 +26,12 @@ class TimeSelectionSportComplex extends Component {
     this.state = {
       data: {},
       showCalendar: false,
+      isLoading: false
     };
   }
 
   async componentDidMount() {
+    this.setState({isLoading: true})
     const selectedFacilityId = await this.props.selectedFacilityId;
     await api
       .get(`/student/showSelectedFacility/${selectedFacilityId}`)
@@ -37,6 +41,7 @@ class TimeSelectionSportComplex extends Component {
       .catch((err) => {
         console.log(err);
       });
+      this.setState({isLoading: false})
   }
 
   onChangeDate(event, selectedDate) {
@@ -53,6 +58,7 @@ class TimeSelectionSportComplex extends Component {
   }
 
   async onPressTime(selectedDate, time,subName) {
+    this.setState({isLoading: true})
     let studentId = ''
     try {
       await api
@@ -73,7 +79,7 @@ class TimeSelectionSportComplex extends Component {
       venueName: this.state.data.facility,
       subCategoryName: subName
     }
-
+    this.setState({isLoading: false})
     await this.props.setBooking(setBooking)
     this.props.navigation.navigate('ConfirmationPage')
     } catch(e) {
@@ -173,6 +179,7 @@ class TimeSelectionSportComplex extends Component {
     const screenHeight = Dimensions.get('window').height;
     return (
       <View style={{flex: 1, backgroundColor: theme.backgroundPrimary}}>
+        {this.state.isLoading && <FullPageLoader />}
         <HeaderBookingPage
           title="Select a time"
           description="Pick a time and date that's available for the court."

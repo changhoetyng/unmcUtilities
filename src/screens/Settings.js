@@ -3,34 +3,27 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {logout} from "../store/actions/user"
-
+import { CommonActions } from '@react-navigation/native';
 import Header from '../components/header';
 import { theme } from '../styles/ThemeColour';
+import { NavigatorIOS } from 'react-native';
 
-export default function Settings() {
+export default function Settings({navigation}) {
     const dispatch = useDispatch();
     
     function logOut() {
         dispatch(logout())
     }
+    
+    
 
     return(
         <View style= { styles.container }>
             <Header 
                 home
                 title= "Settings" 
+                navigation={navigation}
             /> 
-
-            <TouchableOpacity style= {{ alignItems: 'center' }}>
-                <View style= { styles.notifications }>
-                    <Icon 
-                        name= "notifications" 
-                        size= { 18 }
-                        style= {{ color: 'white' }}
-                    />
-                    <Text style= {{ color: 'white', marginLeft: 5 }}> Notifications </Text>
-                </View>
-            </TouchableOpacity>
 
             <TouchableOpacity style= {{ alignItems: 'center' }}>
                 <View style= { styles.info }>
@@ -39,7 +32,7 @@ export default function Settings() {
                         size= { 18 }
                         style= {{ color: 'white' }}
                     />
-                    <Text style= {{ color: 'white', marginLeft: 5 }}> About </Text>
+                    <Text style= {{ color: 'white', marginLeft: 5 }}> Edit Profile </Text>
                 </View>
             </TouchableOpacity>
 

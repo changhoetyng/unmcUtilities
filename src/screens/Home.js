@@ -189,6 +189,7 @@ class Home extends Component {
         </View>
         <FlatList
           data={this.state.data}
+          contentContainerStyle={{flexGrow: 1}}
           renderItem={({item}) => this.announcementRenderer(item)}
           keyExtractor={(data) => data._id}
           style={{flex: 1, alignSelf: 'center', width: '90%'}}

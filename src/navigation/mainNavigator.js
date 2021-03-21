@@ -167,12 +167,12 @@ function MyBookingStack() {
       <Stack.Screen
         name="MyBookingStack"
         component={MyBookingTab}
-        options={{header: () => <HeaderMyBooking title="My Booking" />}}
+        options={{header: ({navigation}) => <HeaderMyBooking title="My Booking" navigation={navigation}/>}}
       />
       <Stack.Screen
         name="BookingStatus"
         component={BookingStatus}
-        options={{header: () => <HeaderMyBooking title="Booking Status" />}}
+        options={{header: ({navigation}) => <HeaderMyBooking title="Booking Status" navigation={navigation}/>}}
       />
     </Stack.Navigator>
   );
