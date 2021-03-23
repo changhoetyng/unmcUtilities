@@ -20,7 +20,7 @@ const headerMyBooking = (props) => {
           size={screenWidth * 0.08}
           />
           </TouchableOpacity>
-    <Text style={[styles.title,{fontSize: screenWidth*0.06}]}>{props.title}</Text>
+      {props.title && <Text style={[styles.title,{fontSize: screenWidth*0.06}]}>{props.title}</Text>}
       </View>
     );
   };

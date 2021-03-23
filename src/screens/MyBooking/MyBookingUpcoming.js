@@ -4,8 +4,10 @@ import {theme} from '../../styles/ThemeColour';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {api} from '../../api/api';
-import moment from 'moment'
-import FullPageLoader from '../../hooks/FullPageLoader'
+import moment from 'moment';
+import FullPageLoader from '../../hooks/FullPageLoader';
+import {connect} from 'react-redux';
+import {setBookingStatus} from '../../store/actions/booking';
 
 class MyBookingUpcoming extends Component {
   constructor(props) {
@@ -26,7 +28,33 @@ class MyBookingUpcoming extends Component {
       .catch((err) => {
         console.log(err);
       });
+
+    this.focusListener = this.props.navigation.addListener(
+      'focus',
+      async () => {
+        this.setState({loading: true});
+        await api
+          .get('/student/getBooked')
+          .then((res) => {
+            this.setState({data: res.data.booked});
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.setState({loading: false});
+        //Put your Data loading function here instead of my this.loadData()
+      },
+    );
     this.setState({loading: false});
+  }
+
+  componentWillUnmount() {
+    this.focusListener();
+  }
+
+  async navigateBookingStatus(item) {
+    await this.props.setBookingStatus(item);
+    this.props.navigation.navigate('BookingStatus');
   }
 
   bookingRenderer(item) {
@@ -42,20 +70,33 @@ class MyBookingUpcoming extends Component {
           <Text style={{fontSize: 14, color: theme.greyOne}}>
             {item.subCategoryName}
           </Text>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('BookingStatus')}>
+          <TouchableOpacity onPress={() => this.navigateBookingStatus(item)}>
             <Icon name="arrow-forward" size={35} color={theme.greyOne} />
           </TouchableOpacity>
         </View>
+        {this.renderStatus(item.status)}
         <Text style={{fontSize: 14, color: theme.greyOne}}>
           {item.bookingDate},{' '}
-          {moment(item.bookingTime , 'HH:mm').format('h:mm a')} -{' '}
-          {moment(item.bookingTime, 'HH:mm')
-            .add(1, 'hours')
-            .format('h:mm a')}
+          {moment(item.bookingTime, 'HH:mm').format('h:mm a')} -{' '}
+          {moment(item.bookingTime, 'HH:mm').add(1, 'hours').format('h:mm a')}
         </Text>
       </View>
     );
+  }
+
+  renderStatus(status) {
+    if (status === 'checkedIn') {
+      return (
+        <Text style={{fontSize: 14, color: theme.greyOne}}>
+          Status: <Text style={{color: 'green'}}>Checked In</Text>
+        </Text>
+      );
+    }
+    if (status === 'booked') {
+      return (
+        <Text style={{fontSize: 14, color: theme.greyOne}}>Status: Booked</Text>
+      );
+    }
   }
 
   render() {
@@ -83,11 +124,17 @@ class MyBookingUpcoming extends Component {
   }
 }
 
-export default MyBookingUpcoming;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setBookingStatus: (mode) => dispatch(setBookingStatus(mode)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(MyBookingUpcoming);
 
 const styles = StyleSheet.create({
   cardStyle: {
-    height: 100,
+    height: 120,
     width: '90%',
     alignSelf: 'center',
     backgroundColor: theme.backgroundPrimary,

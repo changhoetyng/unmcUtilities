@@ -30,6 +30,7 @@ import ConfirmationPage from '../screens/Booking/ConfirmationPage';
 import VenueSelection from '../screens/Booking/VenueSelection';
 import TimeSelectionRoom from '../screens/Booking/TimeSelectionRoom';
 import TimeSelectionSportComplex from '../screens/Booking/TimeSelectionSportComplex'
+import CheckIn from '../screens/Booking/CheckIn'
 import Settings from '../screens/Settings';
 
 const Stack = createStackNavigator();
@@ -168,6 +169,11 @@ function MyBookingStack() {
         name="MyBookingStack"
         component={MyBookingTab}
         options={{header: ({navigation}) => <HeaderMyBooking title="My Booking" navigation={navigation}/>}}
+      />
+       <Stack.Screen
+        name="CheckIn"
+        component={CheckIn}
+        options={{header: ({navigation}) => <HeaderMyBooking navigation={navigation}/>}}
       />
       <Stack.Screen
         name="BookingStatus"

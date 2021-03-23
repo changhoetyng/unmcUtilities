@@ -1,4 +1,4 @@
-import {CURRENT_SELECTED_MODE,CURRENT_SELECTED_FACILITYID,CURRENT_SELECTED_ROOMID,BOOKING_SELECTED,BOOKING_STATUS} from '../types/bookingTypes';
+import {CURRENT_SELECTED_MODE,CURRENT_SELECTED_FACILITYID,CURRENT_SELECTED_ROOMID,BOOKING_SELECTED,BOOKING_STATUS,QR_CODE} from '../types/bookingTypes';
 
 export const currentSelectedMode = (mode) => ({
   type: CURRENT_SELECTED_MODE,
@@ -23,4 +23,9 @@ export const setBooking = (bookInfo) => ({
 export const setBookingStatus = (info) => ({
   type: BOOKING_STATUS,
   data: info,
+});
+
+export const setQrCode = (qrData) => ({
+  type: QR_CODE,
+  data: qrData,
 });

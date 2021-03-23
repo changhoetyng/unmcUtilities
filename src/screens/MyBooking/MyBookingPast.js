@@ -4,8 +4,10 @@ import {theme} from '../../styles/ThemeColour';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {api} from '../../api/api';
-import moment from 'moment'
-import FullPageLoader from '../../hooks/FullPageLoader'; 
+import moment from 'moment';
+import FullPageLoader from '../../hooks/FullPageLoader';
+import {connect} from 'react-redux';
+import {setBookingStatus} from '../../store/actions/booking';
 
 class MyBookingPast extends Component {
   constructor(props) {
@@ -26,7 +28,32 @@ class MyBookingPast extends Component {
       .catch((err) => {
         console.log(err);
       });
+    this.focusListener = this.props.navigation.addListener(
+      'focus',
+      async () => {
+        this.setState({loading: true});
+        await api
+          .get('/student/getPast')
+          .then((res) => {
+            this.setState({data: res.data.booked});
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        this.setState({loading: false});
+        //Put your Data loading function here instead of my this.loadData()
+      },
+    );
     this.setState({loading: false});
+  }
+
+  componentWillUnmount() {
+    this.focusListener();
+  }
+
+  async navigateBookingStatus(item) {
+    await this.props.setBookingStatus(item);
+    this.props.navigation.navigate('BookingStatus');
   }
 
   bookingRenderer(item) {
@@ -43,16 +70,14 @@ class MyBookingPast extends Component {
             {item.subCategoryName}
           </Text>
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('BookingStatus')}>
+            onPress={() => this.navigateBookingStatus(item)}>
             <Icon name="arrow-forward" size={35} color={theme.greyOne} />
           </TouchableOpacity>
         </View>
         <Text style={{fontSize: 14, color: theme.greyOne}}>
           {item.bookingDate},{' '}
-          {moment(item.bookingTime , 'HH:mm').format('h:mm a')} -{' '}
-          {moment(item.bookingTime, 'HH:mm')
-            .add(1, 'hours')
-            .format('h:mm a')}
+          {moment(item.bookingTime, 'HH:mm').format('h:mm a')} -{' '}
+          {moment(item.bookingTime, 'HH:mm').add(1, 'hours').format('h:mm a')}
         </Text>
       </View>
     );
@@ -83,7 +108,13 @@ class MyBookingPast extends Component {
   }
 }
 
-export default MyBookingPast;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setBookingStatus: (mode) => dispatch(setBookingStatus(mode)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(MyBookingPast);
 
 const styles = StyleSheet.create({
   cardStyle: {

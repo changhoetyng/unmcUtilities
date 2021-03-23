@@ -1,4 +1,4 @@
-import {CURRENT_SELECTED_MODE,CURRENT_SELECTED_FACILITYID,CURRENT_SELECTED_ROOMID,BOOKING_SELECTED, BOOKING_STATUS} from '../types/bookingTypes';
+import {CURRENT_SELECTED_MODE,CURRENT_SELECTED_FACILITYID,CURRENT_SELECTED_ROOMID,BOOKING_SELECTED, BOOKING_STATUS,QR_CODE} from '../types/bookingTypes';
 
 const initialState = {currentSelectedMode: '',selectedFacilityId: '',selectedRoomId: '',bookingSelected: '', bookingStatus: ''};
 
@@ -20,6 +20,8 @@ const bookingReducer = (state = initialState, action) => {
       return {...state, bookingSelected: action.data};
     case BOOKING_STATUS:
       return {...state, bookingStatus: action.data};
+    case QR_CODE:
+      return {...state, qrCode: action.data}
     default:
       return state;
   }

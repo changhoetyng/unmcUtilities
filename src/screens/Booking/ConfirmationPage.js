@@ -15,6 +15,8 @@ import FullPageLoader from '../../hooks/FullPageLoader';
 import { CommonActions } from '@react-navigation/native';
 import moment from 'moment'
 import {api} from '../../api/api'
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { RNCamera } from 'react-native-camera';
 
 class ConfirmationPage extends Component {
   constructor(props) {
