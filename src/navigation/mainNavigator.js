@@ -25,13 +25,14 @@ import MyBookingUpcoming from '../screens/MyBooking/MyBookingUpcoming';
 import MyBookingPast from '../screens/MyBooking/MyBookingPast';
 
 //BOOKING
-import HeaderBookingPage from '../components/headerBookingPage';
 import ConfirmationPage from '../screens/Booking/ConfirmationPage';
 import VenueSelection from '../screens/Booking/VenueSelection';
 import TimeSelectionRoom from '../screens/Booking/TimeSelectionRoom';
 import TimeSelectionSportComplex from '../screens/Booking/TimeSelectionSportComplex'
 import CheckIn from '../screens/Booking/CheckIn'
 import Settings from '../screens/Settings';
+
+import SignUp from '../screens/SignUp'
 
 const Stack = createStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -104,8 +105,8 @@ function MainNavigator() {
         /> :       
         !userReducer.auth ? (
           <Stack.Screen
-            name="Login"
-            component={Login}
+            name="LoginStack"
+            component={LoginStack}
             options={{headerShown: false}}
           />
         ) : (
@@ -145,6 +146,19 @@ function Authed() {
       />
     </Stack.Navigator>
   );
+}
+
+function LoginStack() {
+  return(
+    <Stack.Navigator
+    initialRouteName="Login"
+      screenOptions={{
+        headerShown: false,
+      }}>
+    <Stack.Screen name="Login" component={Login} />
+    <Stack.Screen name="SignUp" component={SignUp} />
+    </Stack.Navigator>
+  )
 }
 
 function BookingStack() {

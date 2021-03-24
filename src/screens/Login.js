@@ -57,7 +57,6 @@ function Login({navigation}) {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        // await dispatch(addToken('TESTING MOM'))
         Keyboard.dismiss();
       }}>
       <KeyboardAvoidingView
@@ -70,7 +69,7 @@ function Login({navigation}) {
         <View style={{ flex: 1, marginBottom: 30, justifyContent: 'flex-end' }}>
           <View style={styles.container}>
             <TextInput style={styles.input} onChangeText={text => onChangeStudentId(text)} placeholder="Student ID"/>
-            <TextInput style={styles.input} onChangeText={text => onChangePassword(text)} placeholder="Password"/>
+            <TextInput style={styles.input} secureTextEntry={true} onChangeText={text => onChangePassword(text)} placeholder="Password"/>
 
             <TouchableOpacity onPress={pressHandler}>
               <View style={styles.loginButton}>
@@ -78,7 +77,7 @@ function Login({navigation}) {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => console.log(userReducer.token + userReducer.refreshToken)}>
+            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
               <Text style={styles.signUp}> Sign Up </Text>
               <Text style={{color: "red"}}>{error}</Text>
             </TouchableOpacity>

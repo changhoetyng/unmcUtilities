@@ -32,10 +32,10 @@ class CheckIn extends Component {
 
   onSuccess(e) {
     try {
-      const {_id, subCategoryId,status} = this.props.bookingStatus;
+      const {venueId, subCategoryId,status} = this.props.bookingStatus;
       const data = JSON.parse(e.data);
       if (data.venueId && data.subCategoryId) {
-        if (data.venueId == _id && data.subCategoryId == subCategoryId) {
+        if (data.venueId == venueId && data.subCategoryId == subCategoryId) {
           if(status === "checkedIn"){
             this.checkOut();
           } else {

@@ -32,7 +32,7 @@ export default function Settings({navigation}) {
                         size= { 18 }
                         style= {{ color: 'white' }}
                     />
-                    <Text style= {{ color: 'white', marginLeft: 5 }}> Edit Profile </Text>
+                    <Text style= {{ color: 'white', marginLeft: 5 }}> Change Password </Text>
                 </View>
             </TouchableOpacity>
 
