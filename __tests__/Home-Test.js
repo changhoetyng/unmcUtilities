@@ -3,10 +3,6 @@ import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 import Home from '../src/screens/Home';
 import renderer from 'react-test-renderer';
-// import thunk from 'redux-thunk';
-// import { configure } from "enzyme";
-// import Adapter from 'enzyme-adapter-react-16'
-// import { mount, shallow } from 'enzyme'
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 

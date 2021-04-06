@@ -34,7 +34,7 @@ class SignUp extends Component {
 
   async signUp() {
     this.setState({loading: true})
-    if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.com+$/.test(this.state.email)) {
+    if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]/.test(this.state.email)) {
         this.state.error = "Invalid email";
     } else if(this.state.password != this.state.confirmPassword) {
         this.state.error = "Password doesn't match confirm password";
@@ -104,7 +104,7 @@ class SignUp extends Component {
                 </View>
               </TouchableOpacity>
               <Text style={{color: "red"}}>{this.state.error}</Text>
-              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <TouchableOpacity testID = {"backButton"} onPress={() => this.props.navigation.goBack()}>
                 <Text style={styles.signUp}> Go Back </Text>
               </TouchableOpacity>
             </View>
@@ -127,6 +127,7 @@ class SignUp extends Component {
               </Text>
               <View style={{width: '100%', position: 'absolute', bottom: 0}}>
                 <Button
+                testID = {"backButtonModal"}
                   title="Go Back"
                   onPress={() => {
                       this.props.navigation.goBack();

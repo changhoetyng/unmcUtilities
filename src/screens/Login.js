@@ -77,7 +77,7 @@ function Login({navigation}) {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <TouchableOpacity testID={"signUpButton"} onPress={() => navigation.navigate('SignUp')}>
               <Text style={styles.signUp}> Sign Up </Text>
               <Text style={{color: "red"}}>{error}</Text>
             </TouchableOpacity>
