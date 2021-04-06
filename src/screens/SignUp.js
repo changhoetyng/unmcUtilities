@@ -72,7 +72,7 @@ class SignUp extends Component {
           style={{flex: 1, alignItems: 'center', backgroundColor: '#ddd'}}
           behavior="height">
           {this.state.loading && <FullPageLoader />}
-          <View style={{flex: 1}}>
+          <View style={{flex: 1, justifyContent: 'center'}}>
             <View style={styles.container}>
               <TextInput
                 style={styles.input}
