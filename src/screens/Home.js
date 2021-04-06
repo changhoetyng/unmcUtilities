@@ -103,7 +103,7 @@ class Home extends Component {
             <Text style={[{fontSize: screenHeight * 0.04}, styles.homeTitle]}>
               Home
             </Text>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Settings')}>
+            <TouchableOpacity testID={'setting'} onPress={() => this.props.navigation.navigate('Settings')}>
               <Image
                 source={{uri: this.state.uri}}
                 style={{
@@ -123,6 +123,7 @@ class Home extends Component {
               style={styles.whiteButton}>
               <View>
                 <TouchableOpacity
+                testID={'sportComplex'}
                   style={{alignItems: 'center'}}
                   onPress={() => this.toBooking('sport')}>
                   <Icon
@@ -138,6 +139,7 @@ class Home extends Component {
               <View>
                 <TouchableOpacity
                   style={{alignItems: 'center'}}
+                  testID={'roomBooking'}
                   onPress={() => this.toBooking('room')}>
                   <Icon
                     name="meeting-room"
@@ -151,6 +153,7 @@ class Home extends Component {
               </View>
               <View>
                 <TouchableOpacity
+                 testID={'myBooking'}
                   style={{alignItems: 'center'}}
                   onPress={() => this.props.navigation.navigate('MyBookingStack')}>
                   <Icon

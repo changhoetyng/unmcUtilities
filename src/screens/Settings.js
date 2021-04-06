@@ -43,7 +43,7 @@ export default function Settings({navigation}) {
                         size= { 18 }
                         style= {{ color: 'white' }}
                     />
-                    <Text style= {{ color: 'white', marginLeft: 5 }}> Log Out </Text>
+                    <Text id="logOutText" style= {{ color: 'white', marginLeft: 5 }}> Log Out </Text>
                 </View>
             </TouchableOpacity>
         </View>
