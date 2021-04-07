@@ -173,6 +173,7 @@ class CheckIn extends Component {
               </Text>
               <View style={{width: '100%', position: 'absolute', bottom: 0}}>
                 <Button
+                  testID="goBack"
                   title="Go Back"
                   onPress={() => {
                       this.props.navigation.pop(3);

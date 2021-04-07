@@ -15,8 +15,6 @@ import FullPageLoader from '../../hooks/FullPageLoader';
 import { CommonActions } from '@react-navigation/native';
 import moment from 'moment'
 import {api} from '../../api/api'
-import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera } from 'react-native-camera';
 
 class ConfirmationPage extends Component {
   constructor(props) {
@@ -159,7 +157,7 @@ class ConfirmationPage extends Component {
               <View style={{width: '100%', height: '100%'}}>
                 <Text style={{fontWeight: 'bold', textAlign: 'center', fontSize: 20}}>Booking Successfully</Text>
                 <View style={{width: '100%', position: 'absolute', bottom: 0}}>
-               <Button title="Proceed" onPress={() => this.backHome()} />
+               <Button testID={"backHome"} title="Proceed" onPress={() => this.backHome()} />
           </View>
               </View>
             </View>
