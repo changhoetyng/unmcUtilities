@@ -259,7 +259,7 @@ exports[`TimeSelectionRoom Screen Render TimeSelectionRoom Page 1`] = `
             }
           }
         >
-          07/04/2021
+          18/04/2021
         </Text>
       </View>
     </RNGestureHandlerButton>
@@ -790,7 +790,7 @@ exports[`TimeSelectionSportComplex Screen Render TimeSelectionSportComplex Page 
             }
           }
         >
-          07/04/2021
+          18/04/2021
         </Text>
       </View>
     </RNGestureHandlerButton>
@@ -1003,7 +1003,7 @@ exports[`TimeSelectionSportComplex Screen Render TimeSelectionSportComplex Page 
             }
           }
         >
-          07/04/2021
+          18/04/2021
         </Text>
       </View>
     </RNGestureHandlerButton>
