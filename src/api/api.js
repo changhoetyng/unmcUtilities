@@ -2,7 +2,7 @@ import axios from 'axios';
 import {store} from '../store/store'
 import {logout,addToken} from "../store/actions/user"
 
-export const apiUrl = 'http://192.168.0.143:5000/api'
+export const apiUrl = 'http://192.168.101.20:5000/api'
 
 export const api = axios.create({
     baseURL: apiUrl,
