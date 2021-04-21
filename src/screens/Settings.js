@@ -23,18 +23,7 @@ export default function Settings({navigation}) {
                 home
                 title= "Settings" 
                 navigation={navigation}
-            /> 
-
-            <TouchableOpacity style= {{ alignItems: 'center' }}>
-                <View style= { styles.info }>
-                    <Icon 
-                        name= "info" 
-                        size= { 18 }
-                        style= {{ color: 'white' }}
-                    />
-                    <Text style= {{ color: 'white', marginLeft: 5 }}> Change Password </Text>
-                </View>
-            </TouchableOpacity>
+            />
 
             <TouchableOpacity style= {{ alignItems: 'center' }}  onPress={() => logOut()}>
                 <View style= { styles.logOut }>
