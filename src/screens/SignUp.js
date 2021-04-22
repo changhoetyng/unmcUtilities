@@ -17,6 +17,7 @@ import {theme} from '../styles/ThemeColour';
 import FullPageLoader from '../hooks/FullPageLoader';
 import Modal from 'react-native-modal';
 import {api} from '../api/api';
+import { ScrollView } from 'react-native-gesture-handler';
 
 class SignUp extends Component {
   constructor(props) {
@@ -63,14 +64,8 @@ class SignUp extends Component {
   render() {
     const screenWidth = Dimensions.get('window').width;
     return (
-      <TouchableWithoutFeedback
-        onPress={() => {
-          // await dispatch(addToken('TESTING MOM'))
-          Keyboard.dismiss();
-        }}>
-        <KeyboardAvoidingView
-          style={{flex: 1, alignItems: 'center', backgroundColor: '#ddd'}}
-          behavior="height">
+        <View
+          style={{flex: 1, alignItems: 'center', backgroundColor: '#ddd'}}>
           {this.state.loading && <FullPageLoader />}
           <View style={{flex: 1, justifyContent: 'center'}}>
             <View style={styles.container}>
@@ -137,8 +132,7 @@ class SignUp extends Component {
             </View>
           </View>
         </Modal>
-        </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
+        </View>
     );
   }
 }
