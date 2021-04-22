@@ -15,12 +15,12 @@ import HomeOptions from '../components/homeOptions';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {Divider} from 'react-native-elements';
 import {theme} from '../styles/ThemeColour';
-import { NavigationContainer } from '@react-navigation/native';
-import FullPageLoader from '../hooks/FullPageLoader'; 
-import {api} from '../api/api'
-import moment from 'moment'
-import {connect} from 'react-redux'
-import {currentSelectedMode} from "../store/actions/booking"
+import {NavigationContainer} from '@react-navigation/native';
+import FullPageLoader from '../hooks/FullPageLoader';
+import {api} from '../api/api';
+import moment from 'moment';
+import {connect} from 'react-redux';
+import {currentSelectedMode} from '../store/actions/booking';
 
 class Home extends Component {
   constructor(props) {
@@ -29,30 +29,29 @@ class Home extends Component {
       loading: false,
       uri:
         'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
-      data: []
+      data: [],
     };
   }
-  
+
   async componentDidMount() {
-    this.setState({loading: true})
+    this.setState({loading: true});
     await api
-    .get('/student/getAnnouncement')
-    .then((res) => {
-      this.setState({data: res.data})
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-    this.setState({loading: false})
+      .get('/student/getAnnouncement')
+      .then((res) => {
+        this.setState({data: res.data});
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.setState({loading: false});
   }
 
   announcementRenderer(item) {
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
-    
+
     return (
-      <View
-        style={styles.announcementRenderer}>
+      <View style={styles.announcementRenderer}>
         <View>
           <View
             style={{flexDirection: 'row', marginBottom: screenHeight * 0.006}}>
@@ -71,7 +70,7 @@ class Home extends Component {
                   marginLeft: screenHeight * 0.006,
                   color: '#888888',
                 }}>
-                {moment(item.date).format("D/MM/YYYY h:m a")}
+                {moment(item.date).format('D/MM/YYYY h:m a')}
               </Text>
             </View>
           </View>
@@ -87,8 +86,8 @@ class Home extends Component {
   }
 
   async toBooking(mode) {
-    await this.props.currentSelectedMode(mode)
-    this.props.navigation.navigate('BookingStack')
+    await this.props.currentSelectedMode(mode);
+    this.props.navigation.navigate('BookingStack');
   }
 
   render() {
@@ -98,12 +97,13 @@ class Home extends Component {
       <SafeAreaView style={{flex: 1, backgroundColor: theme.backgroundPrimary}}>
         {this.state.loading && <FullPageLoader />}
         <View style={styles.blueHeader}>
-          <View
-            style={[{marginTop: screenHeight * 0.028},styles.homeWord]}>
+          <View style={[{marginTop: screenHeight * 0.028}, styles.homeWord]}>
             <Text style={[{fontSize: screenHeight * 0.04}, styles.homeTitle]}>
               Home
             </Text>
-            <TouchableOpacity testID={'setting'} onPress={() => this.props.navigation.navigate('Settings')}>
+            <TouchableOpacity
+              testID={'setting'}
+              onPress={() => this.props.navigation.navigate('Settings')}>
               <Image
                 source={{uri: this.state.uri}}
                 style={{
@@ -115,15 +115,17 @@ class Home extends Component {
             </TouchableOpacity>
           </View>
           <View
-            style={[{
-              marginTop: screenHeight * 0.03,
-              height: screenHeight * 0.15,
-            }, styles.whiteButtonCard]}>
-            <View
-              style={styles.whiteButton}>
+            style={[
+              {
+                marginTop: screenHeight * 0.03,
+                height: screenHeight * 0.15,
+              },
+              styles.whiteButtonCard,
+            ]}>
+            <View style={styles.whiteButton}>
               <View>
                 <TouchableOpacity
-                testID={'sportComplex'}
+                  testID={'sportComplex'}
                   style={{alignItems: 'center'}}
                   onPress={() => this.toBooking('sport')}>
                   <Icon
@@ -153,9 +155,11 @@ class Home extends Component {
               </View>
               <View>
                 <TouchableOpacity
-                 testID={'myBooking'}
+                  testID={'myBooking'}
                   style={{alignItems: 'center'}}
-                  onPress={() => this.props.navigation.navigate('MyBookingStack')}>
+                  onPress={() =>
+                    this.props.navigation.navigate('MyBookingStack')
+                  }>
                   <Icon
                     name="book-online"
                     size={screenWidth * 0.1}
@@ -188,8 +192,12 @@ class Home extends Component {
               ]}>
               Announcement
             </Text>
+            <TouchableOpacity onPress={() => this.componentDidMount()}>
+            <Icon name="refresh" size={25} style={{color: theme.primary}} />
+            </TouchableOpacity>
           </View>
         </View>
+        
         <FlatList
           data={this.state.data}
           contentContainerStyle={{flexGrow: 1}}
@@ -202,9 +210,9 @@ class Home extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    currentSelectedMode: mode => dispatch(currentSelectedMode(mode)),
+    currentSelectedMode: (mode) => dispatch(currentSelectedMode(mode)),
   };
 };
 
@@ -235,7 +243,7 @@ const styles = StyleSheet.create({
     width: '90%',
     justifyContent: 'space-between',
     flexDirection: 'row',
-  }, 
+  },
   whiteButtonCard: {
     width: '90%',
     backgroundColor: 'white',
@@ -247,7 +255,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'row',
     width: '100%',
-  }
+  },
 });
 
-export default connect(null,mapDispatchToProps) (Home);
+export default connect(null, mapDispatchToProps)(Home);

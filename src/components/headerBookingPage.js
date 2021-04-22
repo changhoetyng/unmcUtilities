@@ -5,17 +5,17 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const headerBookingPage = (props) => {
     const screenWidth = Dimensions.get('window').width;
-    const screenHeight = Dimensions.get('window').height;
     return (
       <View style={{backgroundColor: theme.backgroundPrimary, padding:10}}>
-          <TouchableOpacity>
+         <TouchableOpacity>
           <Icon 
           name="arrow-back"
           size={screenWidth * 0.08}
           onPress={props.backButton}
           />
           </TouchableOpacity>
-    <Text style={[styles.title,{fontSize: screenWidth*0.06}]}>{props.title}</Text>
+        <Text style={[styles.title,{fontSize: screenWidth*0.06}]}>{props.title}</Text>
+    
     <Text style={{width: '50%',marginLeft: 8, fontSize: screenWidth*0.035, color: theme.primary, fontWeight: 'bold'}}>{props.description}</Text>
       </View>
     );

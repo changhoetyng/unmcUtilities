@@ -12,7 +12,10 @@ import {
 import HeaderBookingPage from '../../components/headerBookingPage';
 import {theme} from '../../styles/ThemeColour';
 import {api} from '../../api/api';
-import {setCurrentFacilityId,setCurrentRoomId} from '../../store/actions/booking';
+import {
+  setCurrentFacilityId,
+  setCurrentRoomId,
+} from '../../store/actions/booking';
 import {connect} from 'react-redux';
 import FullPageLoader from '../../hooks/FullPageLoader';
 
@@ -21,12 +24,12 @@ class VenueSelection extends Component {
     super(props);
     this.state = {
       data: [],
-      isLoading: false
+      isLoading: false,
     };
   }
 
   async componentDidMount() {
-    this.setState({isLoading: true})
+    this.setState({isLoading: true});
     if ((await this.props.currentSelectedMode) === 'sport') {
       await api
         .get('/student/getFacilityName')
@@ -47,7 +50,7 @@ class VenueSelection extends Component {
         });
     }
 
-    this.setState({isLoading: false})
+    this.setState({isLoading: false});
   }
 
   venueRenderer(item) {
@@ -55,14 +58,36 @@ class VenueSelection extends Component {
     return (
       <View>
         {this.props.currentSelectedMode === 'sport' ? (
-          <TouchableOpacity
-            onPress={() => this.navigateSportComplex(item._id)}>
-            <Text style={{fontSize: screenWidth * 0.055}}>{item.name}</Text>
+          <TouchableOpacity onPress={() => this.navigateSportComplex(item._id)}>
+            <View
+              style={{
+                width: '70%',
+                padding: 5,
+                borderColor: theme.greyOne,
+                borderWidth: 2.5,
+                marginBottom: 8,
+              }}>
+              <Text
+                style={{fontSize: screenWidth * 0.055, alignSelf: 'center'}}>
+                {item.name}
+              </Text>
+            </View>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity
-            onPress={() => this.navigateRoom(item._id)}>
-            <Text style={{fontSize: screenWidth * 0.055}}>{item.name}</Text>
+          <TouchableOpacity onPress={() => this.navigateRoom(item._id)}>
+            <View
+              style={{
+                width: '70%',
+                padding: 5,
+                borderColor: theme.greyOne,
+                borderWidth: 2.5,
+                marginBottom: 8,
+              }}>
+              <Text
+                style={{fontSize: screenWidth * 0.055, alignSelf: 'center'}}>
+                {item.name}
+              </Text>
+            </View>
           </TouchableOpacity>
         )}
       </View>
@@ -70,13 +95,13 @@ class VenueSelection extends Component {
   }
 
   async navigateSportComplex(id) {
-    await this.props.setCurrentFacilityId(id)
-    this.props.navigation.navigate('TimeSelectionSportComplex')
+    await this.props.setCurrentFacilityId(id);
+    this.props.navigation.navigate('TimeSelectionSportComplex');
   }
 
   async navigateRoom(id) {
-    await this.props.setCurrentRoomId(id)
-    this.props.navigation.navigate('TimeSelectionRoom')
+    await this.props.setCurrentRoomId(id);
+    this.props.navigation.navigate('TimeSelectionRoom');
   }
 
   render() {
@@ -117,7 +142,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     setCurrentFacilityId: (id) => dispatch(setCurrentFacilityId(id)),
-    setCurrentRoomId: (id) => dispatch(setCurrentRoomId(id))
+    setCurrentRoomId: (id) => dispatch(setCurrentRoomId(id)),
   };
 };
 
