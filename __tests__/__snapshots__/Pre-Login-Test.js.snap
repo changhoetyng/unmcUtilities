@@ -192,16 +192,6 @@ exports[`Login Screens Login Snapshot 1`] = `
 
 exports[`Sign Up Screen SignUp Snapshot 1`] = `
 <View
-  accessible={true}
-  focusable={true}
-  onClick={[Function]}
-  onLayout={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
   style={
     Object {
       "alignItems": "center",
